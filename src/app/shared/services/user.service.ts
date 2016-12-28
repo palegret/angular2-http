@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
 
 import { User } from '../models/user';
 
@@ -18,7 +17,8 @@ export class UserService {
    */
   getUsers(): Observable<User[]> {
     return this.http.get(this.usersUrl)
-      .map(response => response.json().data);
+      .map(res => res.json().data)
+      .catch(this.handleError); 
   }
 
   /** 
@@ -36,4 +36,19 @@ export class UserService {
   /**
    * Delete a user.
    */
+
+  private handleError(err) {
+    let message: string;
+
+    if (err instanceof Response) {
+      const body = err.json() || '';
+      const bodyError = body.error || JSON.stringify(body);
+      const statusText = err.statusText || '';
+      message = `${err.status} - ${statusText} ${bodyError}`;
+    } else {
+      message = err.message ? err.message : err.toString();
+    }
+
+    return Observable.throw(message);
+  }
 }

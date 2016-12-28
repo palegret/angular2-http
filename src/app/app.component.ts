@@ -6,7 +6,7 @@ import { UserService } from './shared/services/user.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   title = 'app works!';
@@ -18,6 +18,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.userService.getUsers()
-      .subscribe(users => this.users = users);
+      .subscribe(
+        users => this.users = users,
+        err => null
+      );
   }
 } 
