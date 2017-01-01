@@ -12,9 +12,7 @@ import { UserService } from '../../shared/services/user.service';
 export class UserDetailComponent implements OnInit {
   user: User;
   
-  constructor(private activatedRoute: ActivatedRoute, private userService: UserService) { 
-    // Empty
-  }
+  constructor(private activatedRoute: ActivatedRoute, private userService: UserService) { }
 
   ngOnInit() {
     let id = this.activatedRoute.snapshot.params['id'];

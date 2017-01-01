@@ -8,9 +8,7 @@ import { User } from '../models/user';
 export class UserService {
   private usersUrl: string = 'https://reqres.in/api/users';
 
-  constructor(private http: Http) {
-    // Empty
-  }
+  constructor(private http: Http) { }
 
   /**
    * Get all users.
@@ -35,23 +33,43 @@ export class UserService {
   /**
    * Create a user.
    */
+  createUser(user: User): Observable<User> {
+    return this.http.post(this.usersUrl, user)
+      .map(res => res.json())
+      //.do(user => this.userCreated(user))
+      .catch(this.handleError);
+  }
+
+  /**
+   * Attempt to update a user but return an HTTP 404 error.
+   */
+  updateUserWithError(user: User): Observable<User> {
+    return this.http.get(`${this.usersUrl}/23`)
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
 
   /**
    * Update a user.
    */
+  updateUser(user: User): Observable<User> {
+    return this.http.put(`${this.usersUrl}/${user.id}`, user)
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
 
   /**
    * Delete a user.
    */
 
-  private toUser(user): User {
+  private toUser(apiUser): User {
     return {
-      id: user.id,
-      username: `${user.first_name[0]}${user.last_name}`,
-      fullName: `${user.first_name} ${user.last_name}`,
-      firstName: user.first_name,
-      lastName: user.last_name,
-      avatar: user.avatar
+      id: apiUser.id,
+      username: `${apiUser.first_name[0]}${apiUser.last_name}`,
+      fullName: `${apiUser.first_name} ${apiUser.last_name}`,
+      firstName: apiUser.first_name,
+      lastName: apiUser.last_name,
+      avatar: apiUser.avatar
     };
   }
 
