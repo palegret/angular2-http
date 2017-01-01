@@ -1,0 +1,17 @@
+<div class="jumbotron text-center">
+  <h1>
+    Users
+  </h1>
+  <a routerLink="/users/create" class="btn btn-sm btn-info">Create User</a>
+</div>
+
+<div class="user-list row" *ngIf="users">
+  <div class="col-sm-4" *ngFor="let user of users">
+    <div class="user-card text-center" [routerLink]="['/users', user.id]">
+      <img [src]="user.avatar" class="user-avatar img-rounded" alt="Avatar">
+      <h2>
+        {{user.fullName}}
+      </h2>
+    </div>
+  </div>
+</div>
