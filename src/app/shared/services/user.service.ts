@@ -1,12 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { User } from '../models/user';
 
 @Injectable()
 export class UserService {
   private usersUrl: string = 'https://reqres.in/api/users';
+
+  // Observable source; same basic idea as Azure Service Bus Topics (pub/sub)
+  private userCreatedSource = new Subject<User>();
+  private userDeletedSource = new Subject();
+
+  // Observable Stream
+  userCreated$ = this.userCreatedSource.asObservable();
+  userDeleted$ = this.userDeletedSource.asObservable();
 
   constructor(private http: Http) { }
 
@@ -61,6 +70,11 @@ export class UserService {
   /**
    * Delete a user.
    */
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${this.usersUrl}/${id}`)
+      //.do(res => this.userDeleted())
+      .catch(this.handleError);
+  }
 
   private toUser(apiUser): User {
     return {

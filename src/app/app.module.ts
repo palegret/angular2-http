@@ -43,7 +43,7 @@ import { UserDetailComponent } from './users/user-detail/user-detail.component';
 
   // Components to compile when this module is defined.
   // Each component gets a ComponentFactory, stored in ComponentFactoryResolver.
-  /* entryComponents?: any[] */
+  // entryComponents?: any[]
 
   // Components to bootstrap when this module is bootstrapped. 
   // Components listed here are automatically added to `entryComponents`.  

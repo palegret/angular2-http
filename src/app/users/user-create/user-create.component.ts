@@ -10,11 +10,7 @@ import { UserService } from '../../shared/services/user.service';
   styleUrls: ['./user-create.component.scss']
 })
 export class UserCreateComponent implements OnInit {
-  user: User = { 
-    firstName: '', 
-    lastName: '', 
-    avatar: '' 
-  };
+  user: User;
   
   successMessage: string = '';
   errorMessage: string = '';
@@ -22,6 +18,7 @@ export class UserCreateComponent implements OnInit {
   constructor(private service: UserService, private router: Router) { }
 
   ngOnInit() {
+    this.user = new User();
   }
 
   createUser() {
