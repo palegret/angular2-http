@@ -10,12 +10,12 @@ export class UserService {
   private usersUrl: string = 'https://reqres.in/api/users';
 
   // Observable source; same basic idea as Azure Service Bus Topics (pub/sub)
-  private userCreatedSource = new Subject<User>();
-  private userDeletedSource = new Subject();
+  private userCreatedSource: Subject<User> = new Subject<User>();
+  private userDeletedSource: Subject<any> = new Subject();
 
-  // Observable Stream
-  userCreated$ = this.userCreatedSource.asObservable();
-  userDeleted$ = this.userDeletedSource.asObservable();
+  // Observable Stream - userCreatedStream, userDeletedStream; $ is idiomatic
+  userCreated$: Observable<User> = this.userCreatedSource.asObservable();
+  userDeleted$: Observable<User> = this.userDeletedSource.asObservable();
 
   constructor(private http: Http) { }
 
@@ -45,7 +45,7 @@ export class UserService {
   createUser(user: User): Observable<User> {
     return this.http.post(this.usersUrl, user)
       .map(res => res.json())
-      //.do(user => this.userCreated(user))
+      .do(user => this.userCreated(user))
       .catch(this.handleError);
   }
 
@@ -72,8 +72,16 @@ export class UserService {
    */
   deleteUser(id: number): Observable<any> {
     return this.http.delete(`${this.usersUrl}/${id}`)
-      //.do(res => this.userDeleted())
+      .do(res => this.userDeleted())
       .catch(this.handleError);
+  }
+
+  userCreated(user: User) {
+    this.userCreatedSource.next(user);
+  }
+
+  userDeleted() {
+    this.userDeletedSource.next();
   }
 
   private toUser(apiUser): User {

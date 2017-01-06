@@ -14,11 +14,11 @@ export class UserEditComponent implements OnInit {
   successMessage: string = '';
   errorMessage: string = '';
 
-  constructor(private service: UserService, private route: ActivatedRoute) { }
+  constructor(private userService: UserService, private route: ActivatedRoute) { }
 
   ngOnInit() { 
     let id = this.route.snapshot.params['id'];
-    this.service.getUser(id)
+    this.userService.getUser(id)
       .subscribe(user => this.user = user);
   }
 
@@ -26,8 +26,8 @@ export class UserEditComponent implements OnInit {
     this.successMessage = '';
     this.errorMessage = '';
 
-    this.service.updateUser(this.user)
-    // this.service.updateUserWithError(this.user)
+    this.userService.updateUser(this.user)
+    // this.userService.updateUserWithError(this.user)
       .subscribe(
         user => {
           this.successMessage = 'User was updated.';

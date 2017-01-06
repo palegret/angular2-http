@@ -1,1 +1,9 @@
+<div id="messagePanel">
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{successMessage}}
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{errorMessage}}
+  </div>
+</div>
 <router-outlet></router-outlet>
