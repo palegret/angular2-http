@@ -9,6 +9,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/observable/throw';
 
+import { AuthService } from './shared/services/auth.service';
 import { UserService } from './shared/services/user.service';
 import { AppRouting } from './app.routing';
 import { AppComponent } from './app.component';
@@ -17,10 +18,12 @@ import { UserListComponent } from './users/user-list/user-list.component';
 import { UserCreateComponent } from './users/user-create/user-create.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { UserDetailComponent } from './users/user-detail/user-detail.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   // Injectable objects available in the injector of this module.
   providers: [
+    AuthService,
     UserService
   ],
   // Directives/pipes that belong to this module.
@@ -30,7 +33,8 @@ import { UserDetailComponent } from './users/user-detail/user-detail.component';
     UserListComponent,
     UserCreateComponent,
     UserEditComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    LoginComponent
   ],
   // Modules whose exported directives/pipes are available to module templates.
   imports: [

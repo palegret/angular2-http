@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Headers, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
@@ -33,7 +33,17 @@ export class UserService {
    * Get a single user.
    */
   getUser(id: number): Observable<User> {
-    return this.http.get(`${this.usersUrl}/${id}`)
+
+    // See also:
+    // Helper library for handling JWTs in Angular 2 apps
+    // https://github.com/auth0/angular2-jwt
+    
+    let token   = localStorage.getItem('auth_token');
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `Bearer ${token}`);
+
+    return this.http.get(`${this.usersUrl}/${id}`, { headers })
       .map(res => res.json().data)
       .map(this.toUser)
       .catch(this.handleError);
